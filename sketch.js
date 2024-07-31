@@ -105,11 +105,18 @@ new p5((p) => {
 
 new p5((p) => {
   let gameOfLife = new GameOfLife(p);
+  // p.playGrid = function () {
+  //   p.play = !p.play;
+  // };
   p.setup = () => {
     gameOfLife.setup();
   };
   p.draw = function () {
     gameOfLife.draw();
+  };
+  p.mouseDragged = () => {
+    gameOfLife.mouseDragged();
+    return false;
   };
 });
 
