@@ -109,7 +109,7 @@ new p5((p) => {
     gameOfLife.setup();
   };
   p.draw = function () {
-    // gameOfLife.draw();
+    gameOfLife.draw();
   };
 });
 
