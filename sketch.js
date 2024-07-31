@@ -1,5 +1,75 @@
 new p5((p) => {
-  let canvasW = 600;
+  let offset = 0;
+  let repeat = 50;
+  let marginY = 40;
+  let marginX = 40;
+  let spacingY;
+  let g = 0;
+  let b = 10;
+  let r = 40;
+  p.setup = () => {
+    p.createCanvas(400, 400);
+    spacingY = (p.height - marginY * 2) / (repeat - 1);
+  };
+  p.draw = () => {
+    p.background(r, g, b);
+    offset = 0;
+
+    p.stroke(255);
+    p.strokeWeight(1.5);
+    p.noFill();
+    for (let i = 0; i < repeat; i++) {
+      p.beginShape();
+      for (let j = marginX; j < p.width - marginX; j++) {
+        let distanceFromCenter = p.abs(j - p.width / 2);
+        let r = p.width / 2 - distanceFromCenter - p.width / 4;
+        let range;
+
+        if (r > 0) {
+          range = r / 2;
+        } else {
+          range = 0;
+        }
+
+        let n = p.noise(offset);
+        y = marginY + i * spacingY + n * range * -1;
+        p.vertex(j, y);
+        offset += 0.05;
+      }
+      p.endShape();
+    }
+    g = (g + 0.5) % 30;
+    b = (b + 0.3) % 35;
+    r = (r + 0.1) % 40;
+  };
+}, "1DNoiseContainer");
+
+new p5((p) => {
+  let slimeMolds;
+  let slimemolds = [];
+  let num = 1000;
+  p.setup = function () {
+    p.createCanvas(400, 400);
+    p.angleMode(p.DEGREES);
+    for (let i = 0; i < num; i++) {
+      slimemolds[i] = new SlimeMold(p);
+      slimemolds[i].initialize();
+    }
+    // slimeMold = new SlimeMold(p);
+  };
+
+  p.draw = function () {
+    p.background(0, 5);
+    p.loadPixels();
+    for (let i = 0; i < num; i++) {
+      slimemolds[i].update();
+      slimemolds[i].display();
+    }
+  };
+}, "slimeMoldsContainer");
+
+new p5((p) => {
+  let canvasW = 400;
   let canvasH = 400;
   let size = 50;
   let cols = canvasW / size;
@@ -71,7 +141,7 @@ new p5((p) => {
       // } else {
       //   p.fill(255);
       // }
-      p.ellipse(points[i].x + r * p.sin(angle + i*10), points[i].y , 10, 10);
+      p.ellipse(points[i].x + r * p.sin(angle + i * 10), points[i].y, 10, 10);
     }
     angle += 5;
   };
